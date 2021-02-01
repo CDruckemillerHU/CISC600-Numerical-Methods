@@ -1,4 +1,6 @@
 import math, cmath
 
-def eulers_method(slope, time_initial, time_final, y_initial):
-    pass
+          
+def eulers_method(old_value, slope, step):
+    return old_value + slope*step
+        
