@@ -28,10 +28,6 @@ def iterative_relative_approx_error(current_approx, previous_approx):
 
 def iterative_relative_percent_approx_error(current_approx, previous_approx):
     return iterative_relative_approx_error(current_approx, previous_approx) * 100
-
-
-def func1(x):
-    return .12*x**4 + 5*x**3
     
 
 def taylor_series(func, first_value, second_value, *deriv):
@@ -65,58 +61,22 @@ def plot_data(func, domain):
         
     plt.plot(domain, y_vals)
     plt.show()
+ 
+ 
+def similar_triangles(func, lower_bound, upper_bound):
+    return upper_bound - (func(upper_bound) * (lower_bound - upper_bound))/(func(lower_bound) - func(upper_bound))
     
-
-def bisection_method(func, lower_bound, upper_bound, previous_value):
-    print(lower_bound,upper_bound)
-    x_r = (lower_bound+upper_bound)/2
-    print(x_r)
-
-    if previous_value:
-        approx_error = iterative_relative_percent_approx_error(x_r,previous_value)
-        print("Error:", approx_error)
-        if approx_error < .5: # Make this a variable?
-            return x_r
+      
+def bracket_method(func, lower_bound, upper_bound, previous_value, error_threshold, is_bisection):
+    x_r = (lower_bound + upper_bound) / 2 if is_bisection else similar_triangles(func, lower_bound, upper_bound) # Bisection vs. False Position?
     approx_root = func(x_r)
-    print("How close are we to zero?:", approx_root, x_r)
-    if approx_root < 0:
-        return bisection_method(func, lower_bound, x_r, x_r)
-    else:
-        return bisection_method(func, x_r, upper_bound, x_r)
-
-
-def similar_triangles(func, upper, lower):
-    f_upper = func(upper)
-    f_lower = func(lower)
-    return upper - (f_upper * (lower - upper))/(f_lower - f_upper)
-
-
-def false_position_method(func, lower_bound, upper_bound, previous_value):
-    x_r = similar_triangles(func, upper_bound,lower_bound)
+    print("Approximate Root:", x_r)
     if previous_value:
-        approx_error = iterative_relative_percent_approx_error(x_r,previous_value)
-        print("Error:", approx_error)
-        if approx_error < .05: # Make this a variable?
+        approx_error = iterative_relative_percent_approx_error(x_r, previous_value)
+        print("Approximate Error:", approx_error)
+        if approx_error < error_threshold:
             return x_r
-    approx_root = func(x_r)
-    print("How close are we to zero?:", approx_root, x_r)
     if approx_root < 0:
-        return false_position_method(func, lower_bound, x_r, x_r)
+        return bracket_method(func, lower_bound, x_r, x_r, error_threshold, is_bisection)
     else:
-        return false_position_method(func, x_r, upper_bound, x_r)
-
-
-def bracket_method(func, lower_bound, upper_bound, previous_value, is_bisection):
-    x_r = (lower_bound+upper_bound)/2 if is_bisection else similar_triangles(func, upper_bound,lower_bound)
-    print(x_r)
-    if previous_value:
-        approx_error = iterative_relative_percent_approx_error(x_r,previous_value)
-        print("Error:", approx_error)
-        if approx_error < .05: # Make this a variable?
-            return x_r
-    approx_root = func(x_r)
-    print("How close are we to zero?:", approx_root, x_r)
-    if approx_root < 0:
-        return bracket_method(func, lower_bound, x_r, x_r, is_bisection)
-    else:
-        return bracket_method(func, x_r, upper_bound, x_r, is_bisection)
+        return bracket_method(func, x_r, upper_bound, x_r, error_threshold, is_bisection)
