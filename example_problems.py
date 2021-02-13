@@ -76,3 +76,26 @@ while approx_error > error_threshold:
     cnt+=1
     print("Approx Error:", str(approx_error) + "%", "\nApproximate Value: ", current_approx, "\nIterations: ", cnt, "\n" )
     
+    
+    
+breakpoint()
+
+#Example 4.1 Taylor Series Approximation of a Polynomial
+
+
+def fun1(x):
+    return -.1*x**4 - .15*x**3 - .5*x**2 -.25*x +1.2
+
+def fun2(x):
+    return -.4*x**3 - .45*x**2 - x - .25
+
+def fun3(x): 
+    return -1.2*x**2 - .9*x - 1
+
+def fun4(x):
+    return -2.4*x - .9
+
+def fun5(x):
+    return -2.4
+
+print(taylor_series(fun1, 0, 1, fun2, fun3, fun4, fun5))
