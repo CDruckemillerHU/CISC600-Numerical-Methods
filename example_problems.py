@@ -99,3 +99,19 @@ def fun5(x):
     return -2.4
 
 print(taylor_series(fun1, 0, 1, fun2, fun3, fun4, fun5))
+
+breakpoint()
+
+
+
+
+# plot_data(fun4, [x for x in range(10)])
+
+def drag_coeff(c):
+    return 668.06/c * (1-math.exp(-.146843*c)) -40
+
+# bisection_method(drag_coeff, 12,16, None)
+# breakpoint()
+false_position_method(drag_coeff, 12,16,None)
+breakpoint()
+bracket_method(drag_coeff, 12, 16, None, False)
