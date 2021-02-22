@@ -23,7 +23,6 @@ def slope_function(kilos, drag, velocity):
 print(eulers_method(0, slope_function(kg, drag, 0), 2))
 data = []
 data.append(0)
-# data.append(eulers_method(None, 0, slope_function(kg, drag, 0), 2))
 for t in range(len(times)):
     previous_data = data[t]
     data.append(eulers_method( previous_data, slope_function(kg, drag, previous_data), 2))
@@ -111,3 +110,58 @@ def drag_coeff(c):
 breakpoint()
 
 bracket_method(drag_coeff, 12, 16, None, .5, True)
+
+
+breakpoint()
+
+
+# Example 6.1 Simple Fixed-Point Iteration
+
+def simple_exp(x):
+    return math.exp(-1*x) - x
+
+def simple_exp_fix_point(x):
+    return math.exp(-1*x)
+
+
+def simple_exp_prime(x):
+    return -1 * math.exp(-1*x) - 1
+
+print(fixed_point_iteration(0, simple_exp_fix_point, 10))
+
+breakpoint()
+
+#Example 6.3 Newton-Raphson Method
+
+print(newton_raphson(0, simple_exp, simple_exp_prime, 4))
+
+
+breakpoint()
+
+#Example 6.6 Secant Method
+
+def other_simple_exp(x):
+    return math.exp(-1*x) - x
+
+print(secant_method(1, 0, other_simple_exp, 4))
+
+
+breakpoint()
+
+# Example 6.10 Modified Newton-Raphson Method for Multiple Roots
+
+def multiple_roots(x):
+    return (x-3) * (x -1) * (x-1)
+
+def multiple_roots_prime(x):
+    return 3*x**2 - 10*x +7
+
+def multiple_roots_prime_prime(x):
+    return 6*x -10
+
+print(newton_raphson(0, multiple_roots,multiple_roots_prime, 6))
+print(newton_raphson(4, multiple_roots,multiple_roots_prime, 6))
+breakpoint()
+print(modified_newton_raphson(0, multiple_roots, multiple_roots_prime, multiple_roots_prime_prime,3))
+print(modified_newton_raphson(4, multiple_roots, multiple_roots_prime, multiple_roots_prime_prime,5))
+    
