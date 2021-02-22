@@ -99,3 +99,15 @@ def fun5(x):
     return -2.4
 
 print(taylor_series(fun1, 0, 1, fun2, fun3, fun4, fun5))
+
+breakpoint()
+
+def drag_coeff(c):
+    return (668.06/c) * (1-math.exp(-.146843*c)) - 40
+
+# plot_data(drag_coeff, [x for x in range(4,21, 4)])
+
+
+breakpoint()
+
+bracket_method(drag_coeff, 12, 16, None, .5, True)
