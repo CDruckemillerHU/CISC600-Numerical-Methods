@@ -80,3 +80,48 @@ def bracket_method(func, lower_bound, upper_bound, previous_value, error_thresho
         return bracket_method(func, lower_bound, x_r, x_r, error_threshold, is_bisection)
     else:
         return bracket_method(func, x_r, upper_bound, x_r, error_threshold, is_bisection)
+    
+    
+def fixed_point_iteration(initial_value, func, iterations):
+    for _ in range(iterations):
+        new_val = func(initial_value)
+        print(new_val)
+        initial_value = new_val
+    
+    return new_val
+        
+        
+def newton_raphson(initial_value, func, func_prime, iterations):
+    for _ in range(iterations):
+        new_value = initial_value - ((func(initial_value))/(func_prime(initial_value)))
+        print(new_value)
+        initial_value = new_value
+    return new_value
+    
+
+def secant_method(current_value, previous_value, func, iterations):    
+    for _ in range(iterations):
+        f_x = func(current_value)
+        f_prev = func(previous_value)
+        print("f(x):", f_x, "f(x-1):", f_prev, "x:", current_value, "x-1:", previous_value)
+
+        new_value = current_value - ((f_x * (previous_value - current_value))/(f_prev - f_x))
+        print(new_value)
+        previous_value = current_value
+        current_value = new_value
+        
+        
+    return new_value
+    
+    
+def modified_newton_raphson(initial_value, func, func_prime, func_double_prime, iterations):
+    for _ in range(iterations): 
+        f_x = func(initial_value)
+        f_prime_x = func_prime(initial_value)
+        f_double_prime_x = func_double_prime(initial_value)
+        new_value = initial_value - ((f_x * f_prime_x)/(f_prime_x**2 - f_x*f_double_prime_x))
+        print(initial_value)
+        initial_value = new_value
+    
+    return new_value
+        
