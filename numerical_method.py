@@ -124,4 +124,32 @@ def modified_newton_raphson(initial_value, func, func_prime, func_double_prime, 
         initial_value = new_value
     
     return new_value
-        
+
+
+def muller_method(x0, x1, x2, func, previous_approx, error_threshold):
+    fx_0 = func(x0)
+    fx_1 = func(x1)
+    fx_2 = func(x2)
+    h0 = x1 - x0
+    h1 = x2 - x1
+    
+    d0 = ((fx_1 - fx_0)/(x1 - x0)) 
+    d1 = ((fx_2 - fx_1)/(x2 - x1))
+    
+    a = ((d1-d0)/(h1+h0))
+    b = a * (h1) + d1
+    c = fx_2
+    discrim = math.sqrt(b**2 - 4 * a * c)
+    if abs(b + discrim) > abs(b - discrim):
+        x3 = x2 + ((-2 * c)/(b + discrim))
+    else:
+        x3 = x2 + ((-2 * c)/(b - discrim))
+    
+    error =approx_relative_percent_error(x3 - x2,x3)
+    print("Error:", error, "Result:", x3)
+    if abs(error) > error_threshold:
+        return muller_method(x1, x2, x3, func, x3, error_threshold)
+    else:
+        return x3
+    
+    
