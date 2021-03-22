@@ -1,5 +1,6 @@
 import math, cmath
 from matplotlib import pyplot as plt
+import numpy as np
 
           
 def eulers_method(old_value, slope, step):
@@ -124,4 +125,71 @@ def modified_newton_raphson(initial_value, func, func_prime, func_double_prime, 
         initial_value = new_value
     
     return new_value
+
+
+def muller_method(x0, x1, x2, func, previous_approx, error_threshold):
+    fx_0 = func(x0)
+    fx_1 = func(x1)
+    fx_2 = func(x2)
+    h0 = x1 - x0
+    h1 = x2 - x1
+    
+    d0 = ((fx_1 - fx_0)/(x1 - x0)) 
+    d1 = ((fx_2 - fx_1)/(x2 - x1))
+    
+    a = ((d1-d0)/(h1+h0))
+    b = a * h1 + d1
+    c = fx_2
+    discrim = math.sqrt(b**2 - 4 * a * c)
+    if abs(b + discrim) > abs(b - discrim):
+        x3 = x2 + ((-2 * c)/(b + discrim))
+    else:
+        x3 = x2 + ((-2 * c)/(b - discrim))
+    
+    error =approx_relative_percent_error(x3 - x2,x3)
+    print("Error:", error, "Result:", x3)
+    if abs(error) > error_threshold:
+        return muller_method(x1, x2, x3, func, x3, error_threshold)
+    else:
+        return x3
+
+
+def bairstow_method(r, s, a, func, error_threshold):
+    b = [0 for _ in a]
+    c = [0 for _ in a]
+    b[0] = a[0]
+    b[1] = a[1] + b[0] * r
+    for i in range(2, len(a)):
+        b[i] = a[i] + r*b[i-1] + s*b[i-2]
+    
+    c[0] = b[0]
+    c[1] = b[1] + r*c[0]
+    for i in range(2, len(a)-1):
+        c[i] = b[i] + r * c[i-1] + s * c[i-2]
+    c.pop()
+    
+    
+    c_array = np.array([[c[-2], c[-3]],[c[-1], c[-2]]])
+    b_array = np.array([b[-2] * -1, b[-1] * -1])
+    detlas = np.linalg.solve(c_array,b_array)
+    r_delta = detlas[0]
+    s_delta = detlas[1]
+    
+    r_revised = r + r_delta
+    s_revised = s + s_delta
+    
+    r_error = r_delta/r_revised * 100
+    print(r_error, "%")
+    s_error = s_delta/s_revised *100
+    print(s_error,"%")
+    if r_error > error_threshold or s_error > error_threshold:
+        bairstow_method(r_revised, s_revised, a, func, error_threshold)
+    else:
+        print(r_revised, s_revised)
+        x_pos = ((r_revised + math.sqrt(r_revised**2 + 4 * s_revised))/(2))
+        print(x_pos)
+        x_neg = ((r_revised - math.sqrt(r_revised**2 + 4 * s_revised))/(2))
+        print(x_neg)
+        print(((s_revised)/(r_revised))*-1)
         
+    

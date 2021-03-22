@@ -164,4 +164,20 @@ print(newton_raphson(4, multiple_roots,multiple_roots_prime, 6))
 breakpoint()
 print(modified_newton_raphson(0, multiple_roots, multiple_roots_prime, multiple_roots_prime_prime,3))
 print(modified_newton_raphson(4, multiple_roots, multiple_roots_prime, multiple_roots_prime_prime,5))
-    
+
+
+breakpoint()
+
+def muller_example_func(x):
+    return x**3 - 13*x - 12
+
+
+muller_method(4.5, 5.5, 5, muller_example_func, muller_example_func(5), .001)
+
+breakpoint()
+
+
+def bairstow_method_example(x):
+    return x**5 - 3.5*x**4 +2.75*x**3 +2.15*x**2 - 3.875*x +1.25
+
+bairstow_method(-1, -1, [1, -3.5, 2.75, 2.125, -3.875, 1.25], 5, bairstow_method_example, 1)
