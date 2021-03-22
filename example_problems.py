@@ -173,3 +173,11 @@ def muller_example_func(x):
 
 
 muller_method(4.5, 5.5, 5, muller_example_func, muller_example_func(5), .001)
+
+breakpoint()
+
+
+def bairstow_method_example(x):
+    return x**5 - 3.5*x**4 +2.75*x**3 +2.15*x**2 - 3.875*x +1.25
+
+bairstow_method(-1, -1, [1, -3.5, 2.75, 2.125, -3.875, 1.25], 5, bairstow_method_example, 1)
