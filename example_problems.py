@@ -180,4 +180,23 @@ breakpoint()
 def bairstow_method_example(x):
     return x**5 - 3.5*x**4 +2.75*x**3 +2.15*x**2 - 3.875*x +1.25
 
-bairstow_method(-1, -1, [1, -3.5, 2.75, 2.125, -3.875, 1.25], 5, bairstow_method_example, 1)
+# bairstow_method(-1, -1, [1, -3.5, 2.75, 2.125, -3.875, 1.25], 5, bairstow_method_example, 1)
+
+
+# breakpoint()
+
+# naive_gauss_equation_matrix = np.array([[3, -.1, -.2, 7.85], 
+#      [.1, 7, -.3, -19.3], 
+#      [.3, -.2, 10, 71.4]])
+
+
+# naive_gauss(naive_gauss_equation_matrix)
+
+
+gauss_jordan_equation_matrix = np.array([
+    [3, -.1, -.2, 7.85],
+    [.1, 7, -.3, -19.3],
+    [.3, -.2, 10, 71.4]
+])
+
+gauss_jordan(gauss_jordan_equation_matrix)

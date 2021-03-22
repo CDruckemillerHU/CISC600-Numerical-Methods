@@ -193,3 +193,73 @@ def bairstow_method(r, s, a, func, error_threshold):
         print(((s_revised)/(r_revised))*-1)
         
     
+'''
+[3, -.1, -.2, 7.85], 
+[.1, 7, -.3, -19.3], 
+[.3, -.2, 10, 71.4]
+'''    
+
+    
+def naive_gauss(equation_matrix): 
+    aik = None
+    akk = None
+    for row_index, rows  in enumerate(equation_matrix):
+        for col_index, item in enumerate(rows):
+            if row_index == 0 and col_index == 0:
+                akk = item
+            if row_index == 1 and col_index == 0:
+                aik = item
+    factor = aik/akk
+    print(aik, akk)
+    ffe = equation_matrix[0] * factor
+    ffe_result = ffe - equation_matrix[1]
+    ffe_result = np.array(list(filter(lambda x: x!= 0, ffe_result)))
+    print(ffe_result)
+    for row_index, rows  in enumerate(equation_matrix):
+        for col_index, item in enumerate(rows):
+            if row_index == 0 and col_index == 0:
+                akk = item
+            if row_index == 2 and col_index == 0:
+                aik = item
+                
+def gauss_jordan(equation_matrix):
+    for items in equation_matrix[0]:
+        equation_matrix[0] = equation_matrix[0]/equation_matrix[0][0]
+    
+    factor = equation_matrix[0][0]/equation_matrix[1][0]
+    elim_factor = equation_matrix[0][0]/factor
+    elim_equation = elim_factor*equation_matrix[0]
+    equation_matrix[1] = elim_equation - equation_matrix[1]
+    
+    factor = equation_matrix[0][0]/equation_matrix[2][0]
+    elim_factor = equation_matrix[0][0]/factor
+    elim_equation = elim_factor*equation_matrix[0]
+    equation_matrix[2] = elim_equation - equation_matrix[2]
+
+    for items in equation_matrix[1]:
+        equation_matrix[1] = equation_matrix[1]/equation_matrix[1][1]
+    
+    factor = equation_matrix[1][1]/equation_matrix[0][1]
+    elim_factor = equation_matrix[1][1]/factor
+    elim_equation = elim_factor*equation_matrix[1]
+    equation_matrix[0] = elim_equation - equation_matrix[0]
+    
+    factor = equation_matrix[1][1]/equation_matrix[2][1]
+    elim_factor = equation_matrix[1][1]/factor
+    elim_equation = elim_factor*equation_matrix[1]
+    equation_matrix[2] = elim_equation - equation_matrix[2]
+    
+    for items in equation_matrix[2]:
+        equation_matrix[2] = equation_matrix[2]/equation_matrix[2][2]
+        
+    factor = equation_matrix[2][2]/equation_matrix[0][2]
+    elim_factor = equation_matrix[2][2]/factor
+    elim_equation = elim_factor*equation_matrix[2]
+    equation_matrix[0] = elim_equation - equation_matrix[0]
+    
+    factor = equation_matrix[2][2]/equation_matrix[1][2]
+    elim_factor = equation_matrix[2][2]/factor
+    elim_equation = elim_factor*equation_matrix[2]
+    equation_matrix[1] = elim_equation - equation_matrix[1]
+
+    print(equation_matrix)
