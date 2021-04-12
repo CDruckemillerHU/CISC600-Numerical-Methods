@@ -263,3 +263,102 @@ def gauss_jordan(equation_matrix):
     equation_matrix[1] = elim_equation - equation_matrix[1]
 
     print(equation_matrix)
+    
+    
+def forward_elim(equa_1, equa_2, factors):
+    ori_len = len(equa_1)
+    equa_1 = equa_1[equa_1 != 0]
+    equa_2 = equa_2[equa_2 != 0]
+    factor = equa_2[0]/equa_1[0]
+    factors.append(factor)
+    elim_equation = equa_1 * factor
+    new_equa_list = equa_2 - elim_equation
+    while len(new_equa_list) != ori_len:
+        new_equa_list = np.insert(new_equa_list, 0, 0)
+    return new_equa_list
+    
+    
+def upper_decompose(matrix):
+    factors = []
+    matrix[1] = forward_elim(matrix[0], matrix[1], factors)
+    matrix[2] = forward_elim(matrix[0], matrix[2], factors)
+    matrix[2] = forward_elim(matrix[1], matrix[2], factors)
+    return matrix, factors
+
+
+def lower_decompose(factors):
+    L_matrix = np.array([[None for _ in factors] for _ in factors])
+    for row_index, rows in enumerate(L_matrix):
+        for col_index, item in enumerate(rows):
+            if row_index == col_index:
+                L_matrix[col_index][row_index] = 1
+            if row_index > col_index: 
+                L_matrix[col_index][row_index] = 0
+
+    factors.reverse()
+    for index, x in np.ndenumerate(L_matrix):
+        if x == None:
+            L_matrix[index] = factors[-1]
+            factors.pop()
+    
+    return L_matrix
+        
+
+def forward_substitution(matrix, r_side):
+    d_matrix = [0 for _ in r_side]
+    d_matrix[0] = r_side[0]  
+
+    for index, rows in enumerate(matrix[1:]):
+        r_index = index+1
+        sigma = 0
+        for item_index, item in enumerate(rows):
+            sigma += item * d_matrix[item_index]
+        d_matrix[r_index] = r_side[r_index] - sigma
+
+    return d_matrix
+    
+def back_substitution(matrix, r_side):
+    n = len(matrix)
+    
+    x_matrix = np.zeros(n)
+    
+    for i in range(n-1, -1, -1):
+        sigma = r_side[i]
+        for j in range(n-1, i, -1):
+            sigma -= x_matrix[j]*matrix[i][j]
+        x_matrix[i] = sigma/matrix[i][i]
+        
+    
+  
+    return x_matrix
+
+
+def matrix_inversion(matrix, r_side):
+    matrix_copy = matrix.copy()
+    [upper_matrix, factors] = upper_decompose(matrix)
+    result_factors = factors[:]
+    lower_matrix = lower_decompose(factors)
+    print(lower_matrix)
+    print(upper_matrix)
+    
+    LU_matrix = np.matmul(lower_matrix, upper_matrix)
+    
+    
+    d_vector_1 = np.array([1,0,0])
+    d_vector_2 = np.array([0,1,0])
+    d_vector_3 = np.array([0,0,1])
+    
+    d_matrix = forward_substitution(lower_matrix,d_vector_1)
+    col_1 = back_substitution(upper_matrix, d_matrix)
+        
+    d_matrix = forward_substitution(lower_matrix,d_vector_2)
+    col_2 = back_substitution(upper_matrix, d_matrix)
+              
+    d_matrix = forward_substitution(lower_matrix,d_vector_3)
+    col_3 = back_substitution(upper_matrix, d_matrix)
+            
+    inverse_matrix = np.column_stack((col_1, col_2, col_3))
+    print(inverse_matrix)
+    print(matrix_copy)
+    print(np.matmul(matrix_copy, inverse_matrix))
+    return inverse_matrix

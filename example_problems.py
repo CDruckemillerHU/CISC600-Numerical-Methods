@@ -200,3 +200,28 @@ gauss_jordan_equation_matrix = np.array([
 ])
 
 gauss_jordan(gauss_jordan_equation_matrix)
+
+breakpoint()
+
+matrix_inversion_example = np.array([
+    [3, -.1, -.2],
+    [.1, 7, -.3],
+    [.3, -.2, 10]
+])
+
+matrix_inversion_r_side_example = np.array([7.85, -19.3, 71.4])
+
+
+matrix_inversion(matrix_inversion_example, matrix_inversion_r_side_example)
+
+breakpoint()
+
+ten_dot_six_matrix = np.array([
+    [10., 2., -1.],
+    [-3., -6., 2.],
+    [1., 1., 5.]
+])
+
+ten_dot_six_matrix_r_side = np.array([12, -8, -21.5])
+
+matrix_inversion(ten_dot_six_matrix, ten_dot_six_matrix_r_side)
