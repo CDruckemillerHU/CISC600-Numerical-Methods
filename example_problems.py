@@ -225,3 +225,23 @@ ten_dot_six_matrix = np.array([
 ten_dot_six_matrix_r_side = np.array([12, -8, -21.5])
 
 matrix_inversion(ten_dot_six_matrix, ten_dot_six_matrix_r_side)
+
+breakpoint()
+newton_FDD_x = [1,4,6,5,3,1.5,2.5,3.5]
+newton_FDD_y = [0,1.3862944, 1.7917595, 1.6094379, 1.0986123, 0.4054641, 0.9162907, 1.2527630]
+y=[[0 for i in range(7)] for j in range(7)]
+
+
+for idx in range(len(y)):
+    y[idx][0] = newton_FDD_y[idx]
+
+n = len(newton_FDD_x)-1
+
+print(len(y))
+y = build_DD_table(newton_FDD_x, y, n)
+
+print(y[0])
+
+print(solve_DD(2, newton_FDD_x, y, n))
+
+            

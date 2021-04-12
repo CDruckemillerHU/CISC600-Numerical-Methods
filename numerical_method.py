@@ -362,3 +362,25 @@ def matrix_inversion(matrix, r_side):
     print(matrix_copy)
     print(np.matmul(matrix_copy, inverse_matrix))
     return inverse_matrix
+
+
+def build_coeff_function(i, value, x):
+    coeff = 1
+    for vals in range(i):
+        coeff *= (value - x[vals])
+        
+    return coeff
+
+def build_DD_table(x_data, y_data, n):
+    for i in range(1,n):
+        for j in range(n-i):
+            y_data[j][i] = ((y_data[j][i-1] - y_data[j+1][i-1]) / (x_data[j] - x_data[i+j]))
+    
+    return y_data
+
+def solve_DD(value, x_data, y_data, n):
+    sum = y_data[0][0]
+    for i in range(1,n):
+        sum += build_coeff_function(i, value, x_data) * y_data[0][i]
+        
+    return sum
