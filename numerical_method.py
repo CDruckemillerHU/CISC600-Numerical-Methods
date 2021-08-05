@@ -223,45 +223,20 @@ def naive_gauss(equation_matrix):
                 aik = item
                 
 def gauss_jordan(equation_matrix):
-    for items in equation_matrix[0]:
-        equation_matrix[0] = equation_matrix[0]/equation_matrix[0][0]
-    
-    factor = equation_matrix[0][0]/equation_matrix[1][0]
-    elim_factor = equation_matrix[0][0]/factor
-    elim_equation = elim_factor*equation_matrix[0]
-    equation_matrix[1] = elim_equation - equation_matrix[1]
-    
-    factor = equation_matrix[0][0]/equation_matrix[2][0]
-    elim_factor = equation_matrix[0][0]/factor
-    elim_equation = elim_factor*equation_matrix[0]
-    equation_matrix[2] = elim_equation - equation_matrix[2]
+    m = len(equation_matrix)
+    equation_matrix = equation_matrix*1.0 
+    rows = set([row for row in range(m)])
+    def helper(r):
+        equation_matrix[r] = equation_matrix[r]/(equation_matrix[r][r])
+        for row in rows-set([r]):
+            elim_factor = equation_matrix[row][r]
+            elim_equation = elim_factor*equation_matrix[r]
+            equation_matrix[row] -= elim_equation
 
-    for items in equation_matrix[1]:
-        equation_matrix[1] = equation_matrix[1]/equation_matrix[1][1]
-    
-    factor = equation_matrix[1][1]/equation_matrix[0][1]
-    elim_factor = equation_matrix[1][1]/factor
-    elim_equation = elim_factor*equation_matrix[1]
-    equation_matrix[0] = elim_equation - equation_matrix[0]
-    
-    factor = equation_matrix[1][1]/equation_matrix[2][1]
-    elim_factor = equation_matrix[1][1]/factor
-    elim_equation = elim_factor*equation_matrix[1]
-    equation_matrix[2] = elim_equation - equation_matrix[2]
-    
-    for items in equation_matrix[2]:
-        equation_matrix[2] = equation_matrix[2]/equation_matrix[2][2]
-        
-    factor = equation_matrix[2][2]/equation_matrix[0][2]
-    elim_factor = equation_matrix[2][2]/factor
-    elim_equation = elim_factor*equation_matrix[2]
-    equation_matrix[0] = elim_equation - equation_matrix[0]
-    
-    factor = equation_matrix[2][2]/equation_matrix[1][2]
-    elim_factor = equation_matrix[2][2]/factor
-    elim_equation = elim_factor*equation_matrix[2]
-    equation_matrix[1] = elim_equation - equation_matrix[1]
+    for r in range(m):
+        helper(r)
 
+    print('Matrix after Transform')
     print(equation_matrix)
     
     
